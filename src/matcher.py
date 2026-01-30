@@ -60,9 +60,6 @@ def matcher(hospitals: list[list[int]], students: list[list[int]], n: int):
         matches.append((i+1, hospital_matches[i]+1))
         
     return matches
-    
-if __name__ == "__main__":
-    main()
 
 
 def read_input(file_name: str) -> tuple[list[list[int]], list[list[int]], int]:
@@ -125,4 +122,3 @@ if __name__ == "__main__":
 
     print(hospitals)
     print(students)
-    print(n)
