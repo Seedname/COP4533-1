@@ -8,11 +8,11 @@ def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matc
 
     # ungroup matchings into easily accessible lists
     for hospital, student in matcher_output:
-        hospital_matches[hospital - 1] = student
-        student_matches[student - 1] = hospital
+        hospital_matches[hospital - 1] = student - 1
+        student_matches[student - 1] = hospital - 1
 
     # make sure there's a correct number of matches
-    if len(hospital_matches) != n:
+    if len(matcher_output) != n:
         return "INVALID (Incorrect number of matches)"
 
     # check that there are no duplicate matches
@@ -22,9 +22,19 @@ def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matc
     # loop through all the hospitals
     for hospital in range(n):
         # check all the students that the hospital prefers more
-        for student in range(hospital_matches[hospital]):
+        for student_index in range(n):
+            # this hospital is already matched to its best candidate
+            if student_index == hospital_matches[hospital]:
+                break
+            
+            # get the student from the hospitals preference list
+            student = hospitals[hospital][student_index] - 1
+
             # check all the hospitals in the students preference list
             for preferred_hospital in students[student]:
+                # adjust to 0 based indexing
+                preferred_hospital = preferred_hospital - 1
+
                 # check if the preferred hospital is the one its matched to
                 # if its good, continue checking
                 if preferred_hospital == student_matches[student]:
