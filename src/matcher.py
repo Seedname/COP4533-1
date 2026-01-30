@@ -116,7 +116,8 @@ def read_input(file_name: str) -> tuple[list[list[int]], list[list[int]], int]:
 
 
 if __name__ == "__main__":
-    hospitals, students, n = read_input("example")
+    file_name = "test" # Change this variable to update the file name
+    hospitals, students, n = read_input(file_name)
 
     matcher_output = matcher(hospitals, students, n)
     print(matcher_output)
