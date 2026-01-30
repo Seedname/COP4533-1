@@ -1,5 +1,6 @@
 import pathlib
 from matcher import read_input, matcher
+from string import ascii_lowercase as alphabet
 
 
 def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matcher_output: list[tuple[int, int]]) -> str:
@@ -22,13 +23,13 @@ def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matc
     # loop through all the hospitals
     for hospital in range(n):
         # check all the students that the hospital prefers more
-        for student_index in range(n):
+        for student in hospitals[hospital]:
+            # adjust to 0 based indexing
+            student = student - 1
+
             # this hospital is already matched to its best candidate
-            if student_index == hospital_matches[hospital]:
+            if student == hospital_matches[hospital]:
                 break
-            
-            # get the student from the hospitals preference list
-            student = hospitals[hospital][student_index] - 1
 
             # check all the hospitals in the students preference list
             for preferred_hospital in students[student]:
@@ -36,16 +37,40 @@ def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matc
                 preferred_hospital = preferred_hospital - 1
 
                 # check if the preferred hospital is the one its matched to
-                # if its good, continue checking
+                # if its good, continue checking the other hospitals
                 if preferred_hospital == student_matches[student]:
                     break
 
                 # check if the preferred hospital is the one that we're testing
+                # this means that the hospital prefers this student more than the student its currently matched to
+                # and this student prefers this hospital more than the one its matched to
                 if preferred_hospital == hospital:
+                    # debug with letters to make it easier
+                    # if n <= 13:
+                    #     print(f"Hospital {alphabet[preferred_hospital]} prefers student {alphabet[student + 26 - n]} and vice versa")
+
                     # if so, its an unstable match
                     return "INVALID (Unstable match)"
 
     return "VALID STABLE"
+
+
+def pretty_print_debug(hospitals: list[list[int]], students: list[list[int]], n: int, matcher_output: list[tuple[int, int]]) -> None:
+    # can use letters
+    if n <= 13:
+        print("Hospitals")
+        print("\n".join(alphabet[i] + ": " 
+                        + " ".join(alphabet[student - 1 + 26 - n] for student in hospital) 
+                        for i, hospital in enumerate(hospitals)))
+
+        print("\nStudents")
+        print("\n".join(alphabet[i + 26 - n] + ": " 
+                        + " ".join(alphabet[hospital - 1] for hospital in student) 
+                        for i, student in enumerate(students)))
+        
+        print("\nMatches")
+        print("\n".join(f"{alphabet[hospital - 1]} - {alphabet[student - 1 + 26 - n]}" for hospital, student in matcher_output))
+
 
 
 def read_output(file_name: str, n: int) -> list[tuple[int, int]]:
@@ -59,7 +84,7 @@ def read_output(file_name: str, n: int) -> list[tuple[int, int]]:
 
     pairings: list[tuple[int, int]] = []
 
-    with open(output_file) as f:
+    with open(output_file, 'r') as f:
         lines = f.readlines()
 
     # make sure theres the correct number of pairs
@@ -84,9 +109,13 @@ def read_output(file_name: str, n: int) -> list[tuple[int, int]]:
 
 
 if __name__ == "__main__":
-    hospitals, students, n = read_input("example")
-    example_output = read_output("example", n)
+    file_name = "test" # Change this variable to update file name
 
-    matcher_output = matcher(hospitals, students, n)
-    message = verifier(hospitals, students, n, matcher_output)
+    hospitals, students, n = read_input(file_name)
+    example_output = read_output(file_name, n)
+
+    message = verifier(hospitals, students, n, example_output)
+
+    pretty_print_debug(hospitals, students, n, example_output)
+
     print(message)
