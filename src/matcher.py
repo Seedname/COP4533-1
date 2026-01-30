@@ -2,7 +2,67 @@ import pathlib
 
 
 def matcher(hospitals: list[list[int]], students: list[list[int]], n: int):
-    pass
+    
+    hospital_matches = [-1] * n
+    student_matches = [-1] * n
+    
+    if n == 1:
+        return [(1, 1)]
+    
+    # dictionaries for O(1) lookup of preferences
+    student_preference_maps = []
+    for i in range(n):
+        student_preference_maps.append({})
+        for j in range(n):
+            hospital = students[i][j]-1
+            student_preference_maps[-1][hospital] = j
+            
+    print(student_preference_maps)
+    
+    
+    # count the number of consecutive checks to know when to stop
+    count_checks = 0
+    while i < n:
+        if count_checks == n:
+            break
+        
+        count_checks+=1
+        
+        for j in range(n):
+            # break if we've reached the same optimal matching
+            if hospital_matches[i] == j:
+                break
+            
+            curr_student = hospitals[i][j]-1
+            # student is unmatched
+            if student_matches[curr_student] == -1:
+                hospital_matches[i] = curr_student
+                student_matches[curr_student] = i
+                count_checks = 1
+                break
+            # student is matched
+            else:
+                old_hospital = student_matches[curr_student]
+                if student_preference_maps[curr_student][old_hospital] > student_preference_maps[curr_student][i]:
+                    hospital_matches[old_hospital] = -1
+                    student_matches[curr_student] = i
+                    hospital_matches[i] = curr_student
+                    count_checks = 1
+                    break
+
+        i+=1
+        if i == n:
+            i = 0
+    
+    # return list of tuples
+    matches = []
+    for i in range(len(hospital_matches)):
+        matches.append((i+1, hospital_matches[i]+1))
+        
+    return matches
+    
+if __name__ == "__main__":
+    main()
 
 
 def read_input(file_name: str) -> tuple[list[list[int]], list[list[int]], int]:
