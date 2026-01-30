@@ -16,9 +16,6 @@ def matcher(hospitals: list[list[int]], students: list[list[int]], n: int):
         for j in range(n):
             hospital = students[i][j]-1
             student_preference_maps[-1][hospital] = j
-            
-    print(student_preference_maps)
-    
     
     # count the number of consecutive checks to know when to stop
     count_checks = 0
@@ -120,5 +117,5 @@ def read_input(file_name: str) -> tuple[list[list[int]], list[list[int]], int]:
 if __name__ == "__main__":
     hospitals, students, n = read_input("example")
 
-    print(hospitals)
-    print(students)
+    matcher_output = matcher(hospitals, students, n)
+    print(matcher_output)

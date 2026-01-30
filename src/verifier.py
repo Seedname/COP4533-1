@@ -43,7 +43,7 @@ def verifier(hospitals: list[list[int]], students: list[list[int]], n: int, matc
                 # check if the preferred hospital is the one that we're testing
                 if preferred_hospital == hospital:
                     # if so, its an unstable match
-                    return "INVALID (Unstable match)" 
+                    return "INVALID (Unstable match)"
 
     return "VALID STABLE"
 
@@ -62,23 +62,23 @@ def read_output(file_name: str, n: int) -> list[tuple[int, int]]:
     with open(output_file) as f:
         lines = f.readlines()
 
-        # make sure theres the correct number of pairs
-        if len(lines) != n:
-            raise ValueError("Invalid number of matches")
+    # make sure theres the correct number of pairs
+    if len(lines) != n:
+        raise ValueError("Invalid number of matches")
 
-        # split the lines by spaces
-        pairs = [line.strip().split(" ") for line in lines]
+    # split the lines by spaces
+    pairs = [line.strip().split(" ") for line in lines]
 
-        # check if there are two items per pair
-        if not all(len(pair) == 2 for pair in pairs):
-            raise ValueError("Not all lines have a pair")
+    # check if there are two items per pair
+    if not all(len(pair) == 2 for pair in pairs):
+        raise ValueError("Not all lines have a pair")
 
-        # check if all items are digits
-        if not all((value.isdigit() for value in pair) for pair in pairs):
-            raise ValueError("Not all values in priority list are integers")
+    # check if all items are digits
+    if not all((value.isdigit() for value in pair) for pair in pairs):
+        raise ValueError("Not all values in priority list are integers")
 
-        # convert the pairs to integers
-        pairings = [tuple(int(num) for num in pair) for pair in pairs]
+    # convert the pairs to integers
+    pairings = [tuple(int(num) for num in pair) for pair in pairs]
 
     return pairings
 
@@ -87,5 +87,6 @@ if __name__ == "__main__":
     hospitals, students, n = read_input("example")
     example_output = read_output("example", n)
 
-    message = verifier(hospitals, students, n, example_output)
+    matcher_output = matcher(hospitals, students, n)
+    message = verifier(hospitals, students, n, matcher_output)
     print(message)
