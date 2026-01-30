@@ -17,8 +17,11 @@ def matcher(hospitals: list[list[int]], students: list[list[int]], n: int):
             hospital = students[i][j]-1
             student_preference_maps[-1][hospital] = j
     
+    print(student_preference_maps)
+    
     # count the number of consecutive checks to know when to stop
     count_checks = 0
+    i = 0
     while i < n:
         if count_checks == n:
             break
@@ -27,7 +30,7 @@ def matcher(hospitals: list[list[int]], students: list[list[int]], n: int):
         
         for j in range(n):
             # break if we've reached the same optimal matching
-            if hospital_matches[i] == j:
+            if hospital_matches[i] == hospitals[i][j] - 1:
                 break
             
             curr_student = hospitals[i][j]-1
