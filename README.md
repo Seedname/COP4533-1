@@ -2,7 +2,7 @@
 
 **Names:**  
 Julian Dominguez - 80849534  
-Alex Milanes - xxxxxxxx  
+Alex Milanes - 51506411  
 
 ## Usage
 
@@ -54,9 +54,9 @@ Example input file `inputs/test.in`:
 2 3 4 1
 ```  
 
-The first line contains the number of students/hospitals, which is 4 in this case. The next 4 lines are the preference lists for the hospitals in order from top to bottom, left to right. The next 4 lines are the students preference lists, ordered the same way. 
+The first line contains the number of students/hospitals, n, which is 4 in this case. The next n lines are the preference lists for the hospitals in order from top to bottom, left to right. The next n lines are the students' preference lists, ordered the same way. 
 
-Here is a mapping for clarity, with hospitls `a, b, c, d` and students `w, x, y, z`:  
+Here is a mapping for clarity, with hospitals `a, b, c, d` and students `w, x, y, z`:  
 
 ```
 Hospitals
@@ -86,7 +86,7 @@ Example output file `outputs/test.out`:
 
 The file has n lines, where n is the number of students/hospitals (4 in this case). Each line contains a hospital-student match, with the hospital on the left and the student on the right.
 
-Here is a mapping for clarity, with hospitls `a, b, c, d` and students `w, x, y, z`:  
+Here is a mapping for clarity, with hospitals `a, b, c, d` and students `w, x, y, z`:  
 ```
 Matches
 a - x
@@ -102,7 +102,7 @@ We created `analyzer.py` to automatically create random preference lists and mat
 The following graph shows the completion time of the matcher with randomized preference lists, averaged over `10` iterations, with `n = 1, 6, 11, 16, ..., 1021`.  
 ![Alex's matcher](data/matcher-alex-1.png)
 
-The matcher can be fit with a quadratic curve, which suggests that its average time complexity scales by n<sup>2</sup>.
+The matcher can be fit with a quadratic curve, which suggests that its average time complexity scales by n<sup>2</sup>. 
 ![Alex matcher fit](data/alex-matcher-fit.png)
 
 The following graph shows the completion time of the verifier with randomized matches, averaged over `10` iterations, with `n = 1, 6, 11, 16, ..., 1021`.  
