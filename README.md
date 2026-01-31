@@ -1,8 +1,8 @@
 # COP 4533 Assignment 1
 
 **Names:**  
-Julian Dominguez - 80849534  
-Alex Milanes - 51506411  
+Julian Dominguez (Seedname) - 80849534  
+Alex Milanes (Alex42006) - 51506411  
 
 ## Usage
 
@@ -99,22 +99,29 @@ d - w
 
 We created `analyzer.py` to automatically create random preference lists and matchings, then time the matcher and analyzer and plot the results.
 
-The following graph shows the completion time of the matcher with randomized preference lists, averaged over `10` iterations, with `n = 1, 6, 11, 16, ..., 1021`.  
+The following graph shows the completion time of the matcher with randomized preference lists, averaged over `10` iterations, with `n = 1, 6, 11, 16, ..., 1021`. 
+
 ![Alex's matcher](data/matcher-alex-1.png)
 
-The matcher can be fit with a quadratic curve, which suggests that its average time complexity scales by n<sup>2</sup>. 
+The matcher can be fit with a quadratic curve, which suggests that its average time complexity scales by n<sup>2</sup>. This is consistent with the expected time complexity of the Gale-Shapley algorithm. 
+
 ![Alex matcher fit](data/alex-matcher-fit.png)
 
 The following graph shows the completion time of the verifier with randomized matches, averaged over `10` iterations, with `n = 1, 6, 11, 16, ..., 1021`.  
+
 ![Verifier random](data/verifier-alex-random.png)
 
 It can be approximately fit with a linear curve, which suggests that the average time complexity scales by n.
+
 ![Verifier random fit](data/verifier-random-fit.png)
 
 
 However, this changes when the input to the verifier is the `VALID STABLE` output of the matcher function.
+
 ![Verifier matcher](data/verifier-alex-matcher-output.png)
 
 In this case, the verifier runtime can be fit fairly accurately to a quadratic curve, which suggests an average time complexity that scales by n<sup>2</sup> when given stable matches.
 
 ![Verifier matcher fit](data/verifier-matcher-fit.png)
+
+It appears that when matches are randomized, the verifier finishes significantly faster. This may be due to the fact that randomized matches are not likely to be stable or near-stable, meaning the program ends early as soon as it detects a conflict. When the verifier is run on a valid and stable solution though, it is forced to check the entire hospital list, leading to the expected scale of n<sup>2</sup>.
